@@ -33,9 +33,9 @@ typedef struct cliente
 
 // protótipos de funções
 
-/**
- * Exibe o menu com todas as opções do programa
- * retorno: um caractere do número correspondente a opção
+/*
+ -> Exibe o menu com todas as opções do programa
+ -> retorno: um caractere do número correspondente a opção
  */
 char menu();
 
@@ -59,43 +59,43 @@ void listar_filmes();
  */
 void listar_clientes();
 
-/**
- * Procura um filme pelo id do filme
+/*
+ -> Procura um filme pelo id do filme
  *
- * Parâmetros:
+ -> Parâmetros:
  *   arq_filmes: ponteiro para um arquivo aberto
  *   id_filme: ID do filme que será buscado
  * retorno: um ponteiro para o filme encontrado ou NULL caso o ID não exista
  */
 t_filme *obter_filme(FILE *arq_filmes, int id_filme);
 
-/**
- * Procura um cliente pelo seu id
+/*
+ -> Procura um cliente pelo seu id
  *
- * Parâmetros:
+ -> Parâmetros:
  *   arq_clientes: ponteiro para um arquivo aberto
  *   id_cliente: ID do cliente que será buscado
- * retorno: um ponteiro para o cliente encontrado ou NULL caso o ID não exista
+ *   retorno: um ponteiro para o cliente encontrado ou NULL caso o ID não exista
  */
 t_cliente *obter_cliente(FILE *arq_clientes, int id_cliente);
 
-/**
- * Pesquisa um filme e exibe suas informações
+/*
+ -> Pesquisa um filme e exibe suas informações
  */
 void pesquisar_filme();
 
-/**
- * Pesquisa um cliente e exibe suas informações
+/*
+ -> Pesquisa um cliente e exibe suas informações
  */
 void pesquisar_cliente();
 
-/**
- * Procura um filme pelo seu id e informa se ele foi encontrado
+/*
+ -> Procura um filme pelo seu id e informa se ele foi encontrado
  *
- * Parâmetros:
+ -> Parâmetros:
  *   arq_filmes: ponteiro para um arquivo aberto
  *   id_filme: ID do filme que será buscado
- * retorno: 1 para filme encontrado ou 0 caso o ID não exista
+ *   retorno: 1 para filme encontrado ou 0 caso o ID não exista
  */
 int existe_filme(FILE *arq_filmes, int id_filme);
 
@@ -105,7 +105,7 @@ int existe_filme(FILE *arq_filmes, int id_filme);
  -> Parâmetros:
  *   arq_clientes: ponteiro para um arquivo aberto
  *   id_cliente: ID do cliente que será buscado
- * retorno: 1 se o cliente existe ou 0 caso o ID não exista
+ *   retorno: 1 se o cliente existe ou 0 caso o ID não exista
  */
 int existe_cliente(FILE *arq_clientes, int id_cliente);
 
@@ -178,8 +178,8 @@ int main(int argc, char *argv[])
 		{
 			printf("\nOpcao invalida! Pressione <Enter> para continuar...");
 			scanf("%*c");
-			// uma forma de "limpar" o buffer de entrada
-			fseek(stdin, 0, SEEK_END); // não recomendável o uso
+			// limpeza o buffer de entrada
+			fseek(stdin, 0, SEEK_END);
 		}
 		system(limpar_tela);
 	}
@@ -209,7 +209,7 @@ char menu()
 	printf("\nDigite o numero da opcao: ");
 	scanf("%1s%*c", resp); // o *c pega o Enter e descarta
 
-	// uma forma de "limpar" o buffer de entrada
+	// limpeza o buffer de entrada
 	fseek(stdin, 0, SEEK_END); // não recomendável o uso
 
 	// se chegou aqui, é porque a opção é válida
@@ -237,7 +237,7 @@ void cadastrar_cliente()
 {
 	// abre o arquivo para escrita
 	// a+b => acrescenta dados ao final do arquivo ou cria
-	// um arquivo binária para leitura e escrita
+	// um arquivo binário para leitura e escrita
 	FILE *arq_clientes = fopen("clientes.bin", "a+b");
 
 	// testa a abertura do arquivo
@@ -286,8 +286,7 @@ void cadastrar_cliente()
 	printf("\nDigite o nome do cliente: ");
 	scanf("%99[^\n]%*c", cliente.nome);
 
-	// uma forma de "limpar" o buffer de entrada
-	fseek(stdin, 0, SEEK_END); // não recomendável o uso
+	fseek(stdin, 0, SEEK_END);
 
 	// se o ponteiro não estiver no final do arquivo nada é escrito
 	fseek(arq_clientes, 0, SEEK_END);
@@ -301,8 +300,8 @@ void cadastrar_cliente()
 	printf("\nPressione <Enter> para continuar...");
 	scanf("%*c"); // pega o Enter e descarta
 
-	// uma forma de "limpar" o buffer de entrada
-	fseek(stdin, 0, SEEK_END); // não recomendável o uso
+	// limpeza do buffer de entrada
+	fseek(stdin, 0, SEEK_END);
 }
 
 
@@ -362,7 +361,7 @@ void cadastrar_filme()
 	printf("\nDigite o nome do filme: ");
 	scanf("%99[^\n]%*c", filme.nome);
 
-	// "limpar" o buffer de entrada
+	// limpeza do buffer de entrada
 	fseek(stdin, 0, SEEK_END);
 
 	do
@@ -658,8 +657,8 @@ void pesquisar_filme()
 	printf("Pressione <Enter> para continuar...");
 	scanf("%*c");
 
-	// uma forma de "limpar" o buffer de entrada
-	fseek(stdin, 0, SEEK_END); // não recomendável o uso
+	// limpeza do buffer de entrada
+	fseek(stdin, 0, SEEK_END);
 }
 
 
@@ -1009,7 +1008,7 @@ void entregar_filme()
 	printf("\nPressione <Enter> para continuar...");
 	scanf("%*c");
 
-	fseek(stdin, 0, SEEK_END); // não recomendável o uso
+	fseek(stdin, 0, SEEK_END);
 }
 
 
@@ -1108,6 +1107,3 @@ void excluir_filme()
 	scanf("%*c");
 	fseek(stdin, 0, SEEK_END);
 }
-
-// Falta fazer relatorios em .txt e .PDF
-// Falta colocar as functions em arquivos separados
