@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 // quantidade máxima de letras no nome do cliente e nome do filme
 #define MAX 100
 
@@ -19,6 +20,10 @@ typedef struct filme
 	int id_cliente;
 	char nome[MAX];
 	float preco;
+	float multa;
+	int dia;
+	int mes;
+	int ano;
 } t_filme;
 
 
@@ -29,7 +34,6 @@ typedef struct cliente
 	int id;
 	char nome[MAX];
 } t_cliente;
-
 
 // protótipos de funções
 
@@ -184,9 +188,18 @@ int main(int argc, char *argv[])
 		system(limpar_tela);
 	}
 
-	printf("\n Fim de opercao)\n");
+	printf("\n Fim de operacao!\n");
 	return 0;
 }
+
+
+
+/*
+ * Retorna 1 caso 'ano' seja bissexto, 0 caso contrário
+ */
+/*int bissexto (int ano) {
+	return (ano % 4 == 0) && ((ano % 100 != 0) || (ano % 400 == 0));
+}*/
 
 
 // função que exibe o menu e retorna a opção escolhida pelo usuário
@@ -285,6 +298,11 @@ void cadastrar_cliente()
 	// %*c descarta o enter
 	printf("\nDigite o nome do cliente: ");
 	scanf("%99[^\n]%*c", cliente.nome);
+	// pega a data atual
+	//_strdate(cliente.datastr);
+
+	// pega a hora atual
+	//_strtime(cliente.tempostr);
 
 	fseek(stdin, 0, SEEK_END);
 
@@ -296,7 +314,7 @@ void cadastrar_cliente()
 	// fecha o arquivo
 	fclose(arq_clientes);
 
-	printf("\nCliente \"%s\" cadastrado com sucesso!\n", cliente.nome);
+	printf("\nCliente \"%s\" foi cadastrado(a) com sucesso!\n", cliente.nome /*,cliente.datastr, cliente.tempostr*/);
 	printf("\nPressione <Enter> para continuar...");
 	scanf("%*c"); // pega o Enter e descarta
 
@@ -454,6 +472,7 @@ void listar_clientes()
 		// mostra os dados do cliente
 		printf("\nID do cliente: %d\n", cliente.id);
 		printf("Nome do cliente: %s\n", cliente.nome);
+		//printf("Dia e hora do registro: \"%s\" as \"%s\"\n", cliente.datastr, cliente.tempostr);
 	}
 
 	if(encontrou_clientes == 0)
@@ -847,6 +866,8 @@ void alugar_filme()
 	char str_id_cliente[10];
 	int id_cliente;
 
+	t_filme retira;
+
 	// rb+ abre para leitura/atualização
 	FILE *arq_filmes = fopen("filmes.bin", "rb+");
 	FILE *arq_clientes = fopen("clientes.bin", "rb+");
@@ -893,6 +914,9 @@ void alugar_filme()
 
 			printf("\nDigite o ID do filme: ");
 			scanf("%10s%*c", str_id_filme);
+			/*printf("\nColoque data incial no formato: dia/mes/ano\n");
+            scanf("%d/%d/%d", &retira.dia, &retira.mes, &retira.ano);*/
+            printf("\nObs: A multa eh aplicada apos 5 dias decorridos do aluguel!");
 
 			fseek(stdin, 0, SEEK_END); // não recomendável o uso
 
@@ -950,6 +974,14 @@ void entregar_filme()
 {
 	char str_id_filme[10];
 	int id_filme;
+	register int i;
+	int dbissexto;
+	int tempo;
+	int total;
+
+	t_filme entrega, retira;
+
+	entrega.multa = 2;
 
 	// rb+ abre para leitura/atualização
 	FILE *arq_filmes = fopen("filmes.bin", "rb+");
@@ -968,6 +1000,40 @@ void entregar_filme()
 
 	printf("\nDigite o ID do filme: ");
 	scanf("%10s%*c", str_id_filme);
+	/*printf("\nColoque data final no formato: dia/mes/ano\n");
+	scanf("%d/%d/%d", &entrega.dia, &entrega.mes, &entrega.ano);
+
+	if(retira.ano != entrega.ano){
+            entrega.multa = ((entrega.ano - retira.ano)) + ((entrega.mes - retira.mes)) + (entrega.dia - retira.dia);
+            entrega.multa = entrega.multa * tempo;
+            entrega.preco = retira.preco + total;
+            printf("Multa por atraso: R$ %.2f", entrega.multa);
+            printf("\nTotal a pagar: R$ %.2f", entrega.preco);
+    }
+
+    else if(retira.mes != entrega.ano){
+            entrega.multa =((entrega.mes - retira.mes)* 30) + (entrega.dia - retira.dia);
+            entrega.multa = entrega.multa * tempo;
+            entrega.preco = retira.preco + total;
+            printf("Multa por atraso: R$ %.2f", entrega.multa);
+            printf("\nTotal a pagar: R$ %.2f", entrega.preco);
+    }
+
+    else if(retira.dia != entrega.dia) {
+            entrega.multa =(entrega.dia - retira.dia);
+            if(entrega.multa > 5){
+                entrega.multa = entrega.multa * tempo;
+                entrega.preco = retira.preco + total;
+                printf("Multa por atraso: R$ %.2f", entrega.multa);
+                printf("\nTotal a pagar: R$ %.2f", entrega.preco);
+            }
+            else{
+                printf("\nEntregue em tempo!");
+            }
+    }
+    else{
+            printf("\nEntregue em tempo!");
+    }*/
 
 	fseek(stdin, 0, SEEK_END); // não recomendável o uso
 
